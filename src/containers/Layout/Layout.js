@@ -1,11 +1,14 @@
-import Toolbar from '../../components/Toolbar/Toolbar';
+import Header from '../../components/Header/Header';
+import { Container } from 'react-bootstrap';
 
-function Layout(props) {
+function Layout({ children }) {
     return (
-        <div>
-            <Toolbar />
-            {props.children}
-        </div>
+        <>
+            <Header />
+            <Container fluid>
+                {children}
+            </Container>
+        </>
     )
 }
 
