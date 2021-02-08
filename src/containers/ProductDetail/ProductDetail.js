@@ -1,33 +1,29 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import { getPokemon } from '../../requests/Pokemon';
 
 function ProductDetail() {
     const [product, setProduct] = useState({});
+    const [loading, setLoading] = useState(false);
     const params = useParams();
 
     useEffect(() => {
-        /* ir al web service.. y obtener detalles del producto seleccionado... */
-        async function getProduct() {
-            await axios.get(`https://pokeapi.co/api/v2/pokemon/${parseInt(params.productId)}`)
-                .then(res => {
-                    let productData = {
-                        id: res.data.id,
-                        name: res.data.name,
-                        img: res.data.sprites.front_default,
-                        price: Math.floor(Math.random() * Math.floor(10) + 1),
-                        details: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!",
-                    };
-                    setProduct(productData);
-                })
+        const fetchData = async () => {
+            setLoading(true);
+            let response = await getPokemon(params.productId);
+            console.log('response in details', response);
+            setProduct(response);
+            setLoading(false);
         }
-        getProduct();
+        fetchData();
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
         <>
             {
-                product ? (
+                !loading ? (
                     <div style={{ textAlign: "center" }}>
                         <h1>{product.title}</h1>
                         <img src={product.img} alt="product" style={{ height: "300px", width: "300px" }} />
