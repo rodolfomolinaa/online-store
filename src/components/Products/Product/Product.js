@@ -1,35 +1,27 @@
 import { Link } from 'react-router-dom'
 import { Row, Col, Card, Button, Form, Spinner } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import useLocalStorage from '../../../hooks/useLocalStorage';
+// import useLocalStorage from '../../../hooks/useLocalStorage';
 
-function Product({ product, onChangeProduct }) {
+function Product({ product, onChangeProduct, onAddToCart }) {
     const [quantity, setQuantity] = useState(1);
-    const [basePrice, setBasePrice] = useState(product.price);
+    const [basePrice] = useState(product.price);
     const [price, setPrice] = useState();
-    // const [productData, setProductData] = useState();
-    const [cart, setCart] = useLocalStorage('products', []);
 
-    const addToCart = (product) => {
-        console.log(product, 'added to cart');
+    const addToCart = () => {
         const newProduct = {
-            id: product.id,
+            ...product,
+            price: price,
+            basePrice: basePrice,
             quantity: quantity,
         }
-        setCart([...cart, newProduct]);
+        onAddToCart(newProduct)
     }
 
-    // const onChange = () => {
-    //     const newData = {
-    //         ...product, name: 'prueba'
-    //     }
-    //     onChangeProduct(newData);
-    // }
-
     useEffect(() => {
-        // setProductData(product);
         setPrice((basePrice * quantity).toFixed(2));
 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [quantity])
 
 
@@ -55,7 +47,8 @@ function Product({ product, onChangeProduct }) {
                                 </Form.Label>
                                 <Col xs={12}>
                                     {/* <Button variant="primary" className="mt-2" block onClick={onChange}> */}
-                                    <Button variant="primary" className="mt-2" block onClick={() => addToCart(product)}>
+                                    {/* <Button variant="primary" className="mt-2" block onClick={() => addToCart(product, quantity)}> */}
+                                    <Button variant="primary" className="mt-2" block onClick={addToCart}>
                                         Add to cart
                                     </Button>
                                 </Col>
