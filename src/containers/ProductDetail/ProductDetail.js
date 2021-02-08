@@ -11,7 +11,6 @@ function ProductDetail() {
         const fetchData = async () => {
             setLoading(true);
             let response = await getPokemon(params.productId);
-            console.log('response in details', response);
             setProduct(response);
             setLoading(false);
         }
