@@ -1,4 +1,4 @@
-import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { Nav, Navbar } from 'react-bootstrap';
 import NavItem from './Navigation/NavItem/NavItem';
 import reactLogo from '../../assets/images/react.svg'
 import { FaShoppingCart } from 'react-icons/fa';
