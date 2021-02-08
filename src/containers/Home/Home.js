@@ -1,79 +1,74 @@
-import React, { useState } from 'react';
-import Sales from '../../components/Sales/Sales';
+import React, { useState, useEffect } from 'react';
+import Products from '../../components/Products/Products';
 import { Row, Col } from 'react-bootstrap';
+import axios from 'axios';
 
 function Home() {
-    const [productsList, setProductsList] = useState([
-        {
-            id: 1,
-            img: "https://images-na.ssl-images-amazon.com/images/I/716hxkzc4SL._SY445_.jpg",
-            details: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!",
-            title: "Lorem ipsum dolor sit amet",
-            price: "$0.05"
-        },
-        {
-            id: 2,
-            img: "https://images-na.ssl-images-amazon.com/images/I/71RJjEn8oCL._SX342_.jpg",
-            details: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!",
-            title: "Lorem ipsum dolor sit amet",
-            price: "$50"
-        },
-        {
-            id: 3,
-            img: "https://images-na.ssl-images-amazon.com/images/I/51P7ctxJSvL._AC_SL1000_.jpg",
-            details: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!",
-            title: "Lorem ipsum dolor sit amet",
-            price: "$11"
-        },
-        {
-            id: 4,
-            img: "https://images-na.ssl-images-amazon.com/images/I/81WMUxNTRYL._SX342_.jpg",
-            details: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!",
-            title: "Lorem ipsum dolor sit amet",
-            price: "$110"
-        },
-        {
-            id: 5,
-            img: "https://images-na.ssl-images-amazon.com/images/I/81-JwILO-FL._AC_SL1500_.jpg",
-            details: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!",
-            title: "Lorem ipsum dolor sit amet",
-            price: "$50"
-        },
-        {
-            id: 6,
-            img: "https://images-na.ssl-images-amazon.com/images/I/81-JwILO-FL._AC_SL1500_.jpg",
-            details: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!",
-            title: "Lorem ipsum dolor sit amet",
-            price: "$50"
-        },
-        {
-            id: 7,
-            img: "https://images-na.ssl-images-amazon.com/images/I/81-JwILO-FL._AC_SL1500_.jpg",
-            details: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!",
-            title: "Lorem ipsum dolor sit amet",
-            price: "$50"
-        },
-        {
-            id: 8,
-            img: "https://images-na.ssl-images-amazon.com/images/I/81-JwILO-FL._AC_SL1500_.jpg",
-            details: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!",
-            title: "Lorem ipsum dolor sit amet",
-            price: "$50"
-        },
-        {
-            id: 9,
-            img: "https://images-na.ssl-images-amazon.com/images/I/81-JwILO-FL._AC_SL1500_.jpg",
-            details: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!",
-            title: "Lorem ipsum dolor sit amet",
-            price: "$50"
-        },
-    ])
+    const [offset, setOffset] = useState(0);
+    const [limit, setLimit] = useState(12);
+    const [pokemonList, setPokemonList] = useState([]);
+    const [loading, setLoading] = useState(false);
+    // const [error, setError] = useState();
+
+
+    const fetchDataCall = async () => {
+        try {
+
+            let { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon/?offset=${offset}&limit=${limit}`);
+            let pokemonsEdnpoints = data.results.map(pokemon => pokemon.url);
+            let pokemonPromises = pokemonsEdnpoints.map(endpoint => axios.get(endpoint));
+            const pokemonList = await Promise.all(pokemonPromises)
+                .then(async function (pokemonResponse) {
+                    console.log('pokemon response', pokemonResponse);
+                    let pokemonData = [];
+                    for (const pokemon of pokemonResponse) {
+                        pokemonData.push({
+                            id: pokemon.data.id,
+                            name: pokemon.data.name,
+                            img: pokemon.data.sprites.front_default,
+                            price: Math.floor(Math.random() * Math.floor(10) + 1),
+                            detail: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!"
+                        })
+                    }
+                    return pokemonData;
+                })
+
+            return pokemonList;
+        } catch (err) {
+            console.log('err', err);
+        }
+    };
+
+    const onChangeProduct = (products) => {
+        console.log('change product', products)
+        setPokemonList(products);
+    }
+
+    // const onChangeProductQuantity = () => {
+    //     console.log(quantity)
+    // }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            let response = await fetchDataCall();
+            setPokemonList(response);
+            setLoading(false);
+        }
+        fetchData();
+    }, []);
+
     return (
 
         <Row>
             <Col>
-                <h1 className="text-center my-3">Productos disponibles</h1>
-                <Sales sale={productsList} />
+                {!loading ? (
+                    // <Products productsList={pokemonList} onChangeProduct={onChangeProduct} onChangeProductQuantity={onChangeProductQuantity} />
+                    <Products productsList={pokemonList} onChangeProduct={onChangeProduct} />
+                ) : (
+                        <div>Loading...</div>
+                    )}
+
             </Col>
         </Row>
     )
