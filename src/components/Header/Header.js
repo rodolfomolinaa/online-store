@@ -1,6 +1,8 @@
 import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import NavItem from './Navigation/NavItem/NavItem';
 import reactLogo from '../../assets/images/react.svg'
+import { FaShoppingCart } from 'react-icons/fa';
+import { IconContext } from 'react-icons/lib';
 
 function Header() {
     return (
@@ -18,16 +20,18 @@ function Header() {
                 <Nav className="mr-auto">
                     <NavItem link="/">Home</NavItem>
                     <NavItem link="/About">About</NavItem>
-                    <NavDropdown title="Categories" id="collasible-nav-dropdown">
-                        <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                    </NavDropdown>
                 </Nav>
                 <Nav>
-                    <Nav.Link href="#deets">Cart</Nav.Link>
+                    <NavItem link="/shopping-cart">
+                        <IconContext.Provider
+                            value={{
+                                size: "2em",
+                                color: "cornflowerblue"
+                            }}
+                        >
+                            <FaShoppingCart />
+                        </IconContext.Provider>
+                    </NavItem>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
