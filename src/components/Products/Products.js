@@ -1,43 +1,40 @@
 import Product from './Product/Product';
 import { Row, CardGroup } from 'react-bootstrap';
 import useLocalStorage from '../../hooks/useLocalStorage';
+// import testLocalStorage from '../../hooks/testLocalStorage';
+// import { useState, useEffect } from 'react';
 
 
-function Products({ productsList, onChangeProduct }) {
-    // const handleProductChange = (product) => {
-    //     const products = productsList.map(p => {
-    //         if (p.id === product.id) {
-    //             return product
-    //         }
-    //         return p;
-    //     })
-    //     onChangeProduct(products);
-    // }
-    const [cart, setCart] = useLocalStorage('cart', []);
+function Products({ productsList }) {
+    const [shoppingCart, setShoppingCart] = useLocalStorage('cart', []);
+    // const [shoppingCart, setShoppingCart] = useState([]);
 
     const handleShoppingCart = (product) => {
-        const myCart = JSON.parse(localStorage.getItem('cart'));
-        if (myCart !== null) {
-            console.log('tiene algo');
-            console.log('myCart', myCart);
+        if (shoppingCart.length > 0) {
+            let foundProduct = shoppingCart.find(item => item.id === product.id);
+            if (foundProduct) {
+                const quantity = foundProduct.quantity += product.quantity;
+                foundProduct = {
+                    ...foundProduct,
+                    quantity: quantity,
+                    price: foundProduct.basePrice * quantity
+
+                }
+                console.log('found')
+                console.log('update', foundProduct);
+                console.log(setShoppingCart([...shoppingCart, foundProduct]));
+
+            } else {
+                console.log('not found');
+                setShoppingCart([...shoppingCart, product]);
+            }
+
         } else {
-            console.log('esta vacio');
-            console.log('myCart', myCart);
+            console.log('carro no tiene items')
+            setShoppingCart([product]);
         }
 
-        cart.find(p => {
-            if (p.id === product.id) {
-                p.quantity += product.quantity
-                return console.log('ya existe');
-            } else {
-                return console.log('es nuevo')
-            }
-        })
-        setCart(prev => [...prev, product]);
-        console.log('add product to shopping car', product);
-
     }
-
     return (
         <Row className="mt-5">
             <CardGroup>
@@ -45,8 +42,7 @@ function Products({ productsList, onChangeProduct }) {
                     <Product
                         key={product.id}
                         product={product}
-                        // onChangeProduct={handleProductChange}
-                        onAddToCart={handleShoppingCart}
+                        shoppingCart={handleShoppingCart}
                     />
                 ))}
             </CardGroup>
