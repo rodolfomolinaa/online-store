@@ -1,26 +1,24 @@
 import { Link } from 'react-router-dom'
 import { Row, Col, Card, Button, Form, Spinner } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-// import useLocalStorage from '../../../hooks/useLocalStorage';
 
-function Product({ product, onChangeProduct, onAddToCart }) {
+function Product({ product, shoppingCart }) {
     const [quantity, setQuantity] = useState(1);
     const [basePrice] = useState(product.price);
-    const [price, setPrice] = useState();
+    const [newPrice, setNewPrice] = useState();
 
-    const addToCart = () => {
+    const addToShoppingCart = () => {
         const newProduct = {
             ...product,
-            price: price,
+            price: newPrice,
             basePrice: basePrice,
             quantity: quantity,
         }
-        onAddToCart(newProduct)
+        shoppingCart(newProduct);
     }
 
     useEffect(() => {
-        setPrice((basePrice * quantity).toFixed(2));
-
+        setNewPrice(Math.round(basePrice * quantity));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [quantity])
 
@@ -40,15 +38,13 @@ function Product({ product, onChangeProduct, onAddToCart }) {
                         <Form>
                             <Form.Group as={Row}>
                                 <Col xs={6}>
-                                    <Form.Control type="number" min="1" value={quantity} onChange={e => setQuantity(e.target.value)} />
+                                    <Form.Control type="number" min="1" value={quantity} onChange={e => setQuantity(parseInt(e.target.value))} />
                                 </Col>
                                 <Form.Label column xs={6} className="d-flex justify-content-end">
-                                    ${price}
+                                    ${newPrice}
                                 </Form.Label>
                                 <Col xs={12}>
-                                    {/* <Button variant="primary" className="mt-2" block onClick={onChange}> */}
-                                    {/* <Button variant="primary" className="mt-2" block onClick={() => addToCart(product, quantity)}> */}
-                                    <Button variant="primary" className="mt-2" block onClick={addToCart}>
+                                    <Button variant="primary" className="mt-2" block onClick={addToShoppingCart}>
                                         Add to cart
                                     </Button>
                                 </Col>
