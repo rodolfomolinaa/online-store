@@ -23,10 +23,8 @@ function Home() {
         <Row>
             <Col>
                 {!loading ? (
-                    // <Products productsList={pokemonList} onChangeProduct={onChangeProduct} onChangeProductQuantity={onChangeProductQuantity} />
                     <Products
                         productsList={pokemonList}
-                    // onChangeProduct={onChangeProduct}
                     />
                 ) : (
                         <div>Loading...</div>
