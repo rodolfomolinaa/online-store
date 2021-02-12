@@ -1,11 +1,7 @@
-import { Row, Col, Button, Image, InputGroup, FormControl } from 'react-bootstrap';
+import { Row, Col, Button, Image, InputGroup } from 'react-bootstrap';
 import { FaPlus, FaMinus, FaRegTrashAlt } from 'react-icons/fa';
 
-function Cart({ product, onChangeQuantity }) {
-    const changePrice = () => {
-        console.log('change price in cart');
-    }
-
+function Cart({ product, onChangeQuantity, onRemoveItem }) {
     return (
         <>
             <Row className="my-3">
@@ -23,28 +19,28 @@ function Cart({ product, onChangeQuantity }) {
                         <InputGroup.Prepend>
                             <Button
                                 variant="default"
-                                onClick={changePrice}
+                                disabled={product.quantity === 1 ? true : false}
+                                onClick={() => onChangeQuantity('decrease', product.id)}
                             >
                                 <FaMinus />
                             </Button>
                         </InputGroup.Prepend>
-                        <FormControl value={product.quantity} onChange={e => e.target.value} />
+
+                        <span className="m-2">{product.quantity}</span>
                         <Button
                             variant="default"
-                            onClick={changePrice}
+                            onClick={() => onChangeQuantity('increase', product.id)}
                         >
                             <FaPlus />
                         </Button>
                         <span className="m-2 font-weight-bold">${product.price}</span>
-                        <Button variant="danger">
+                        <Button variant="danger" onClick={() => onRemoveItem(product.id)}>
                             <FaRegTrashAlt />
                         </Button>
                     </InputGroup>
                 </Col>
             </Row>
         </>
-
-
     )
 }
 
