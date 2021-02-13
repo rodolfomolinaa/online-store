@@ -18,18 +18,16 @@ function Home() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    let content = <div>Loading...</div>;
+    if (!loading) {
+        content = <Products productsList={pokemonList} />
+    }
+
     return (
 
         <Row>
             <Col>
-                {!loading ? (
-                    <Products
-                        productsList={pokemonList}
-                    />
-                ) : (
-                        <div>Loading...</div>
-                    )}
-
+                {content}
             </Col>
         </Row>
     )
