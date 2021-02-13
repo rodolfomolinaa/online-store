@@ -1,36 +1,29 @@
 import Product from './Product/Product';
 import { Row, CardGroup } from 'react-bootstrap';
 import useLocalStorage from '../../hooks/useLocalStorage';
-// import testLocalStorage from '../../hooks/testLocalStorage';
-// import { useState, useEffect } from 'react';
-
 
 function Products({ productsList }) {
     const [shoppingCart, setShoppingCart] = useLocalStorage('cart', []);
-    // const [shoppingCart, setShoppingCart] = useState([]);
 
     const handleShoppingCart = (product) => {
         if (shoppingCart.length > 0) {
+            //When product is in the cart
             let foundProduct = shoppingCart.find(item => item.id === product.id);
             if (foundProduct) {
-                const quantity = foundProduct.quantity += product.quantity;
-                foundProduct = {
-                    ...foundProduct,
-                    quantity: quantity,
-                    price: foundProduct.basePrice * quantity
-
-                }
-                console.log('found')
-                console.log('update', foundProduct);
-                console.log(setShoppingCart([...shoppingCart, foundProduct]));
-
+                const newProducts = shoppingCart.map(item => {
+                    if (item.id === product.id) {
+                        item.quantity += product.quantity;
+                        item.price = item.basePrice * item.quantity;
+                    }
+                    return item;
+                })
+                setShoppingCart([...newProducts]);
             } else {
-                console.log('not found');
-                setShoppingCart([...shoppingCart, product]);
+                //When product is not in cart
+                setShoppingCart([...shoppingCart, product])
             }
-
         } else {
-            console.log('carro no tiene items')
+            //When cart is empty
             setShoppingCart([product]);
         }
 
