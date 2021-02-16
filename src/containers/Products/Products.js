@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Products from '../../components/Products/Products';
+import ProductList from '../Products/ProductList/ProductList';
 import { Row, Col } from 'react-bootstrap';
 import { getPokemons } from '../../requests/Pokemon';
 
-function Home() {
+function Products() {
     const [pokemonList, setPokemonList] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -20,7 +20,7 @@ function Home() {
 
     let content = <div>Loading...</div>;
     if (!loading) {
-        content = <Products productsList={pokemonList} />
+        content = <ProductList productsList={pokemonList} />
     }
 
     return (
@@ -33,4 +33,4 @@ function Home() {
     )
 }
 
-export default Home
+export default Products;
