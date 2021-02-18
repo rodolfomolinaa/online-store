@@ -13,24 +13,21 @@ function Products() {
             let response = await getPokemons();
             setPokemonList(response);
             setLoading(false);
-        }
+        };
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     let content = <div>Loading...</div>;
     if (!loading) {
-        content = <ProductList productsList={pokemonList} />
+        content = <ProductList productsList={pokemonList} />;
     }
 
     return (
-
         <Row>
-            <Col>
-                {content}
-            </Col>
+            <Col>{content}</Col>
         </Row>
-    )
+    );
 }
 
 export default Products;
