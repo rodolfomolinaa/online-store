@@ -1,7 +1,7 @@
 import { Row, Col, Button, Image, InputGroup } from 'react-bootstrap';
 import { FaPlus, FaMinus, FaRegTrashAlt } from 'react-icons/fa';
 
-function Cart({ product, onChangeQuantity, onRemoveItem }) {
+function Cart({ index, product, onChangeQuantity, onRemoveItem }) {
     return (
         <>
             <Row className="my-3">
@@ -9,10 +9,10 @@ function Cart({ product, onChangeQuantity, onRemoveItem }) {
                     <Image rounded src={product.img} />
                 </Col>
                 <Col xl={8}>
-                    <span className="font-weight-bold d-block">{product.name}</span>
-                    <span className="align-self-center">
-                        {product.detail}
+                    <span className="font-weight-bold d-block">
+                        {product.name}
                     </span>
+                    <span className="align-self-center">{product.detail}</span>
                 </Col>
                 <Col xl={3} className="align-self-center">
                     <InputGroup>
@@ -20,7 +20,9 @@ function Cart({ product, onChangeQuantity, onRemoveItem }) {
                             <Button
                                 variant="default"
                                 disabled={product.quantity === 1 ? true : false}
-                                onClick={() => onChangeQuantity('decrease', product.id)}
+                                onClick={() =>
+                                    onChangeQuantity('decrease', index)
+                                }
                             >
                                 <FaMinus />
                             </Button>
@@ -29,19 +31,24 @@ function Cart({ product, onChangeQuantity, onRemoveItem }) {
                         <span className="m-2">{product.quantity}</span>
                         <Button
                             variant="default"
-                            onClick={() => onChangeQuantity('increase', product.id)}
+                            onClick={() => onChangeQuantity('increase', index)}
                         >
                             <FaPlus />
                         </Button>
-                        <span className="m-2 font-weight-bold">${product.price}</span>
-                        <Button variant="danger" onClick={() => onRemoveItem(product.id)}>
+                        <span className="m-2 font-weight-bold">
+                            ${product.quantity * product.price}
+                        </span>
+                        <Button
+                            variant="danger"
+                            onClick={() => onRemoveItem(index)}
+                        >
                             <FaRegTrashAlt />
                         </Button>
                     </InputGroup>
                 </Col>
             </Row>
         </>
-    )
+    );
 }
 
-export default Cart
+export default Cart;
