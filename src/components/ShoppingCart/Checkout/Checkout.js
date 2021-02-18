@@ -2,8 +2,8 @@ function Checkout() {
     const products = JSON.parse(localStorage.getItem('cart'));
     let totalProducts = 0;
     let totalAmout = 0;
-    products.map(item => totalProducts += item.quantity);
-    products.map(item => totalAmout += item.price)
+    products.map((item) => (totalProducts += item.quantity));
+    products.map((item) => (totalAmout += item.price * item.quantity));
 
     return (
         <div className="mb-3">
@@ -15,16 +15,16 @@ function Checkout() {
                             <strong>The total amount of</strong>
                         </div>
                         <span>
-                            <strong>
-                                ${totalAmout.toFixed(2)}
-                            </strong>
+                            <strong>${totalAmout.toFixed(2)}</strong>
                         </span>
                     </li>
                 </ul>
-                <button type="button" className="btn btn-primary btn-block">Checkout</button>
+                <button type="button" className="btn btn-primary btn-block">
+                    Checkout
+                </button>
             </div>
         </div>
-    )
+    );
 }
 
-export default Checkout
+export default Checkout;
