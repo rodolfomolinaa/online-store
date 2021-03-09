@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import ProductList from '../Products/ProductList/ProductList';
 import { Row, Col } from 'react-bootstrap';
-import { getPokemons } from '../../requests/Pokemon';
+import { getProducts } from '../../requests/Product';
 
 function Products() {
-    const [pokemonList, setPokemonList] = useState([]);
+    const [productList, setProductList] = useState([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
-            let response = await getPokemons();
-            setPokemonList(response);
+            let response = await getProducts();
+            setProductList(response);
             setLoading(false);
         };
         fetchData();
@@ -20,7 +20,7 @@ function Products() {
 
     let content = <div>Loading...</div>;
     if (!loading) {
-        content = <ProductList productsList={pokemonList} />;
+        content = <ProductList productsList={productList} />;
     }
 
     return (
