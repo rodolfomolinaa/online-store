@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Row, Col, Card, Button, Form } from 'react-bootstrap';
 import { useState } from 'react';
+import classes from './Product.module.css';
 
 function Product({ index, product, shoppingCart }) {
     const [quantity, setQuantity] = useState(product.quantity);
@@ -20,52 +21,48 @@ function Product({ index, product, shoppingCart }) {
     };
 
     return (
-        <Col
-            xs={12}
-            sm={8}
-            md={6}
-            lg={4}
-            xl={2}
-            className="d-flex align-items-stretch"
-        >
-            <Card className="mb-4">
-                <Link to={`/product/${product.id}`}>
+        <Col xs={12} sm={8} md={6} lg={4} xl={2} className="mt-3">
+            <Card className={classes.ProductCard}>
+                <Link
+                    to={`/product/${product.id}`}
+                    className={classes.ProductTumb}
+                >
                     <Card.Img variant="top" src={product.img} />
                 </Link>
                 <Card.Body>
-                    <Card.Title>{product.name}</Card.Title>
-                </Card.Body>
-                <Card.Footer>
-                    <Form>
-                        <Form.Group as={Row}>
-                            <Col xs={6}>
-                                <Form.Control
-                                    type="number"
-                                    min="1"
-                                    value={quantity}
-                                    onChange={(e) => handleQuantity(e)}
-                                />
-                            </Col>
+                    <Card.Title>{product.title}</Card.Title>
+                    <hr />
+                    <Row>
+                        <Col>
+                            <Form.Control
+                                type="number"
+                                min="1"
+                                value={quantity}
+                                onChange={(e) => handleQuantity(e)}
+                            />
+                        </Col>
+                        <Col>
                             <Form.Label
                                 column
-                                xs={6}
                                 className="d-flex justify-content-end"
                             >
                                 ${total.toFixed(2)}
                             </Form.Label>
-                            <Col xs={12}>
-                                <Button
-                                    variant="primary"
-                                    className="mt-2"
-                                    block
-                                    onClick={addToShoppingCart}
-                                >
-                                    Add to cart
-                                </Button>
-                            </Col>
-                        </Form.Group>
-                    </Form>
-                </Card.Footer>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Button
+                                variant="primary"
+                                className="mt-2"
+                                block
+                                onClick={addToShoppingCart}
+                            >
+                                Add to cart
+                            </Button>
+                        </Col>
+                    </Row>
+                </Card.Body>
             </Card>
         </Col>
     );
