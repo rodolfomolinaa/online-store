@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import ProductList from '../Products/ProductList/ProductList';
-import { Row, Col } from 'react-bootstrap';
 import { getProducts } from '../../requests/Product';
 
 function Products() {
@@ -23,11 +22,7 @@ function Products() {
         content = <ProductList productsList={productList} />;
     }
 
-    return (
-        <Row>
-            <Col>{content}</Col>
-        </Row>
-    );
+    return <>{content}</>;
 }
 
 export default Products;
