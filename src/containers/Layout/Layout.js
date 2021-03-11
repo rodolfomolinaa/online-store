@@ -1,15 +1,15 @@
-import Header from '../../components/Header/Header';
+import Header from './Header/Header';
 import { Container } from 'react-bootstrap';
 
 function Layout({ children }) {
     return (
         <>
-            <Header />
             <Container fluid>
+                <Header />
                 {children}
             </Container>
         </>
-    )
+    );
 }
 
-export default Layout
+export default Layout;
