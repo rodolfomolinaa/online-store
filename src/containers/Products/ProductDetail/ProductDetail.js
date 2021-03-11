@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { Image } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { getProduct } from '../../../requests/Product';
 
 function ProductDetail() {
-    const [product, setProduct] = useState({});
-    const [loading, setLoading] = useState(false);
+    const [product, setProduct] = useState();
+    const [loading, setLoading] = useState(true);
     const params = useParams();
 
     useEffect(() => {
         const fetchData = async () => {
-            setLoading(true);
             let response = await getProduct(params.productId);
-            console.log('response', response);
             setProduct(response);
             setLoading(false);
         };
@@ -19,24 +18,22 @@ function ProductDetail() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    let content = <h1>Loading...</h1>;
+
+    if (product && !loading) {
+        content = (
+            <>
+                <h1>{product.title}</h1>
+                <p>{product.detail}</p>
+                <Image variant="bottom" src={product.img} />
+            </>
+        );
+    } else {
+        content = <h1>Product not found...</h1>;
+    }
+
     return (
-        <>
-            {!loading ? (
-                <div style={{ textAlign: 'center' }}>
-                    <h1>{product.title}</h1>
-                    <img
-                        src={product.img}
-                        alt="product"
-                        // style={{ height: '300px', width: '300px' }}
-                    />
-                    <h2>{product.detail}</h2>
-                </div>
-            ) : (
-                <div style={{ textAlign: 'center' }}>
-                    <h1>Product not found...</h1>
-                </div>
-            )}
-        </>
+        <div style={{ paddingTop: '50px', textAlign: 'center' }}>{content}</div>
     );
 }
 
