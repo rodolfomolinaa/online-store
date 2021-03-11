@@ -29,7 +29,7 @@ function ProductList({ productsList }) {
     };
 
     return (
-        <Row className="mt-5">
+        <Row style={{ paddingTop: '45px' }}>
             <CardGroup>
                 {productsList.map((product, index) => (
                     <Product
