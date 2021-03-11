@@ -6,7 +6,7 @@ function NavItem(props) {
         <LinkContainer to={props.link} exact>
             <Nav.Link>{props.children}</Nav.Link>
         </LinkContainer>
-    )
+    );
 }
 
 export default NavItem;
