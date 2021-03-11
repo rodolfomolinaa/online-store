@@ -35,7 +35,7 @@ function ShoppingCart() {
     }, [myShoppingCart]);
 
     return (
-        <Row>
+        <Row style={{ paddingTop: '50px' }}>
             {isEmpty ? (
                 <Col xl={12}>
                     <div>No tienes productos en tu carrito</div>
