@@ -21,7 +21,6 @@ export const getProducts = async () => {
 export const getProduct = async (productId) => {
     try {
         let response = await axios.get(`/products/${productId}`);
-        console.log('response in request', response);
         const product = {
             id: response.data.product.id,
             title: response.data.product.title,
