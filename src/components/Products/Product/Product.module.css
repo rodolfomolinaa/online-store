@@ -1,0 +1,16 @@
+.ProductCard:hover {
+    top: -4px;
+}
+
+.ProductTumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 250px;
+    padding: 20px;
+}
+
+.ProductTumb img {
+    max-width: 75%;
+    max-height: 100%;
+}
