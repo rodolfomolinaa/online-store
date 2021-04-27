@@ -1,13 +1,17 @@
 import React from 'react';
 import ItemCart from '../../components/ShoppingCart/ItemCart/ItemCart';
 import Checkout from '../../components/ShoppingCart/Checkout/Checkout';
+import EmptyCart from '../../components/ShoppingCart/EmptyCart/EmptyCart';
 import { Row, Col } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import useLocalStorage from '../../hooks/useLocalStorage';
+import { save } from '../../requests/Checkout';
 
-function ShoppingCart() {
+function ShoppingCart(props) {
     const [myShoppingCart, setMyShoopingCart] = useLocalStorage('cart');
     const [isEmpty, setIsEmpty] = useState(true);
+    const history = useHistory();
 
     const handlePrice = (action, index) => {
         const updateShoppingCart = [...myShoppingCart];
@@ -30,36 +34,48 @@ function ShoppingCart() {
         myShoppingCart.length > 0 ? setIsEmpty(false) : setIsEmpty(false);
     };
 
+    const handlePurchase = async () => {
+        let products = myShoppingCart.map((product) => ({
+            id: product.id,
+            quantity: product.quantity,
+        }));
+        const data = await save(products);
+        if (data) {
+            setMyShoopingCart([]);
+        }
+        history.push(`/purchase/${data.id}`);
+    };
+
     useEffect(() => {
         myShoppingCart.length > 0 ? setIsEmpty(false) : setIsEmpty(true);
     }, [myShoppingCart]);
 
-    return (
-        <Row style={{ paddingTop: '50px' }}>
-            {isEmpty ? (
-                <Col xl={12}>
-                    <div>No tienes productos en tu carrito</div>
-                </Col>
-            ) : (
-                <>
-                    <Col xl={8}>
-                        {myShoppingCart.map((product, index) => (
-                            <ItemCart
-                                key={product.id}
-                                index={index}
-                                product={product}
-                                onChangeQuantity={handlePrice}
-                                onRemoveItem={removeItem}
-                            />
-                        ))}
-                    </Col>
-                    <Col xl={4}>
-                        <Checkout />
-                    </Col>
-                </>
-            )}
-        </Row>
+    let content = (
+        <Col xl={12}>
+            <EmptyCart />
+        </Col>
     );
+    if (!isEmpty)
+        content = (
+            <>
+                <Col xl={8}>
+                    {myShoppingCart.map((product, index) => (
+                        <ItemCart
+                            key={product.id}
+                            index={index}
+                            product={product}
+                            onChangeQuantity={handlePrice}
+                            onRemoveItem={removeItem}
+                        />
+                    ))}
+                </Col>
+                <Col xl={4}>
+                    <Checkout purchase={handlePurchase} />
+                </Col>
+            </>
+        );
+
+    return <Row style={{ paddingTop: '50px' }}>{content}</Row>;
 }
 
 export default ShoppingCart;
