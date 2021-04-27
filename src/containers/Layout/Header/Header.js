@@ -12,7 +12,7 @@ function Header() {
             expand="lg"
             bg="dark"
             variant="dark"
-            style={{ height: '5vh' }}
+            style={{ height: '8vh' }}
         >
             <Navbar.Brand>
                 <img src={reactLogo} width="30" height="30" alt="React logo" />

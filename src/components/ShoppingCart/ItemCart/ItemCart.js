@@ -4,7 +4,7 @@ import { FaPlus, FaMinus, FaRegTrashAlt } from 'react-icons/fa';
 function Cart({ index, product, onChangeQuantity, onRemoveItem }) {
     return (
         <>
-            <Row className="p-3">
+            <Row className="p-3 mt-2">
                 <Col xl={2} className="align-self-center">
                     <Image
                         rounded
