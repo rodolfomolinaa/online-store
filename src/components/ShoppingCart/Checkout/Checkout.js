@@ -1,4 +1,4 @@
-function Checkout() {
+function Checkout({ purchase }) {
     const products = JSON.parse(localStorage.getItem('cart'));
     let totalProducts = 0;
     let totalAmout = 0;
@@ -19,7 +19,11 @@ function Checkout() {
                         </span>
                     </li>
                 </ul>
-                <button type="button" className="btn btn-primary btn-block">
+                <button
+                    type="button"
+                    className="btn btn-primary btn-block"
+                    onClick={purchase}
+                >
                     Checkout
                 </button>
             </div>
