@@ -7,12 +7,12 @@ import { IconContext } from 'react-icons/lib';
 function Header() {
     return (
         <Navbar
-            className="fixed-top"
+            // className="fixed-top"
             collapseOnSelect
             expand="lg"
             bg="dark"
             variant="dark"
-            style={{ height: '8vh' }}
+            // style={{ height: '8vh' }}
         >
             <Navbar.Brand>
                 <img src={reactLogo} width="30" height="30" alt="React logo" />
