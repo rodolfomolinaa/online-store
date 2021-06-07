@@ -4,10 +4,8 @@ import { Container } from 'react-bootstrap';
 function Layout({ children }) {
     return (
         <>
-            <Container fluid>
-                <Header />
-                {children}
-            </Container>
+            <Header />
+            <Container fluid>{children}</Container>
         </>
     );
 }
