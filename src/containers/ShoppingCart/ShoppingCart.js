@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import { save } from '../../requests/Checkout';
 
-function ShoppingCart(props) {
+function ShoppingCart() {
     const [myShoppingCart, setMyShoopingCart] = useLocalStorage('cart');
     const [isEmpty, setIsEmpty] = useState(true);
     const history = useHistory();
@@ -47,7 +47,11 @@ function ShoppingCart(props) {
     };
 
     useEffect(() => {
-        myShoppingCart.length > 0 ? setIsEmpty(false) : setIsEmpty(true);
+        if (myShoppingCart !== undefined && myShoppingCart.length > 0) {
+            setIsEmpty(false);
+        } else {
+            setIsEmpty(true);
+        }
     }, [myShoppingCart]);
 
     let content = (
@@ -75,7 +79,7 @@ function ShoppingCart(props) {
             </>
         );
 
-    return <Row style={{ paddingTop: '50px' }}>{content}</Row>;
+    return <Row className="pt-3">{content}</Row>;
 }
 
 export default ShoppingCart;
