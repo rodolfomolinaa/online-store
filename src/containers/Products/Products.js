@@ -10,8 +10,10 @@ function Products() {
         const fetchData = async () => {
             setLoading(true);
             let response = await getProducts();
-            setProductList(response);
-            setLoading(false);
+            if (response !== undefined) {
+                setProductList(response);
+                setLoading(false);
+            }
         };
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
