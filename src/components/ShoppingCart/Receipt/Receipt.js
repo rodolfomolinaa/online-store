@@ -35,7 +35,7 @@ function Receipt() {
     }
     return (
         <>
-            <Row className="p-3 mt-5 justify-content-center">
+            <Row className="text-center">
                 <Col xl={12}>{content}</Col>
             </Row>
         </>
