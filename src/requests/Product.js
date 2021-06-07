@@ -1,8 +1,9 @@
-import axios from '../axios/axios';
+import axios from '../axios';
+import { config } from '../Constants';
 
 export const getProducts = async () => {
     try {
-        let { data } = await axios.get('/products');
+        let { data } = await axios.get(`${config.url.productsApi}/products`);
         data = data.products.map((product) => ({
             id: product.id,
             title: product.title,
@@ -20,7 +21,9 @@ export const getProducts = async () => {
 
 export const getProduct = async (productId) => {
     try {
-        let response = await axios.get(`/products/${productId}`);
+        let response = await axios.get(
+            `${config.url.productsApi}/products/${productId}`,
+        );
         const product = {
             id: response.data.product.id,
             title: response.data.product.title,
