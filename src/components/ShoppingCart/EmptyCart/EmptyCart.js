@@ -7,7 +7,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 
 function EmptyCart() {
     return (
-        <Jumbotron className="text-center mt-4">
+        <Jumbotron className="text-center">
             <IconContext.Provider
                 value={{
                     size: '12em',
