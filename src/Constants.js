@@ -9,7 +9,7 @@ const prod = {
 const dev = {
     url: {
         productsApi: 'http://localhost:5000/api',
-        checkoutApi: 'http://localhost:8080/purchase/',
+        checkoutApi: 'http://localhost:8080/',
     },
 };
 
