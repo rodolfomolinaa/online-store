@@ -32,9 +32,7 @@ function ProductDetail() {
         content = <h1>Product not found...</h1>;
     }
 
-    return (
-        <div style={{ paddingTop: '50px', textAlign: 'center' }}>{content}</div>
-    );
+    return <div style={{ textAlign: 'center' }}>{content}</div>;
 }
 
 export default ProductDetail;
